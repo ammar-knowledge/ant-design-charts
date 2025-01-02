@@ -10,7 +10,6 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": false,
-    "suppressImplicitAnyIndexErrors": true,
     "experimentalDecorators": true,
     "strict": false,
     "skipLibCheck": true,
@@ -20,7 +19,11 @@
     "declaration": true,
     "noUnusedLocals": false,
     "noImplicitAny": false,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "preserveSymlinks": true,
+    "paths": {
+      "@@/*": ["src/.umi/*"]
+    }
   },
   "exclude": [
     "node_modules",
@@ -47,8 +50,5 @@
     "jest.config.js",
     "**/fixtures",
     "./tests/no-duplicated.ts"
-  ],
-  "paths": {
-    "@@/*": ["src/.umi/*"]
-  }
+  ]
 }

@@ -1,43 +1,30 @@
-import G6 from '@antv/g6';
-import OrganizationGraph from './components/organization-graph';
-import type { OrganizationGraphConfig } from './components/organization-graph';
-import RadialTreeGraph from './components/radial-tree-graph';
-import type { RadialTreeGraphConfig } from './components/radial-tree-graph';
-import FlowAnalysisGraph from './components/flow-analysis-graph';
-import type { FlowAnalysisGraphConfig } from './components/flow-analysis-graph';
-import DecompositionTreeGraph from './components/decomposition-tree-graph';
-import type { DecompositionTreeGraphConfig } from './components/decomposition-tree-graph';
-import FundFlowGraph from './components/fund-flow-graph';
-import type { FundFlowGraphConfig } from './components/fund-flow-graph';
-import RadialGraph from './components/radial-graph';
-import type { RadialGraphConfig } from './components/radial-graph';
-import MindMapGraph from './components/mind-map-graph';
-import type { MindMapGraphConfig } from './components/mind-map-graph';
-import FileTreeGraph from './components/file-tree-graph';
-import type { FileTreeGraphConfig } from './components/file-tree-graph';
-import ConversionDagreGraph from './components/conversion-dagre-graph';
+import * as G6 from '@antv/g6';
+import './preset';
 
 export {
-  FlowAnalysisGraph,
-  RadialTreeGraph,
-  DecompositionTreeGraph,
-  OrganizationGraph,
-  FundFlowGraph,
-  RadialGraph,
-  MindMapGraph,
-  FileTreeGraph,
-  ConversionDagreGraph,
-  G6,
-};
-export * from './interface';
-export * from './layout';
+  Dendrogram,
+  Fishbone,
+  FlowDirectionGraph,
+  FlowGraph,
+  IndentedTree,
+  MindMap,
+  NetworkGraph,
+  OrganizationChart,
+} from './components';
 export type {
-  OrganizationGraphConfig,
-  RadialTreeGraphConfig,
-  FlowAnalysisGraphConfig,
-  DecompositionTreeGraphConfig,
-  FundFlowGraphConfig,
-  RadialGraphConfig,
-  MindMapGraphConfig,
-  FileTreeGraphConfig,
-};
+  DendrogramOptions,
+  FishboneOptions,
+  FlowDirectionGraphOptions,
+  FlowGraphOptions,
+  IndentedTreeOptions,
+  MindMapOptions,
+  NetworkGraphOptions,
+  OrganizationChartOptions,
+} from './components';
+export { CollapseExpandIcon, RCNode } from './core/base';
+export type { OrganizationChartNodeProps, TextNodeProps } from './core/base/node';
+export { measureTextSize } from './core/utils/measure-text';
+export { getNodeSide } from './core/utils/node';
+export { mergeOptions } from './core/utils/options';
+export type { GraphOptions } from './types';
+export { G6 };

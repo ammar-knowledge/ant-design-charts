@@ -6,12 +6,23 @@ export default defineConfig({
     { id: 'zh', name: '中文' },
     { id: 'en', name: 'English' },
   ],
+  title: 'Ant Design Charts', // 网站header标题
+  favicons: ['https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*7svFR6wkPMoAAAAAAAAAAAAADmJ7AQ/original'], // 网站 favicon
+  metas: [
+    // 自定义 meta 标签
+    { name: 'keywords', content: 'Ant Design Charts' },
+    {
+      name: 'description',
+      content: 'AntV react component library',
+    },
+  ],
   themeConfig: {
     title: 'Ant Design Charts',
     description: 'AntV react component library',
     defaultLanguage: 'zh',
-    siteUrl: 'https://charts.ant.design',
+    siteUrl: 'https://ant-design-charts.antgroup.com',
     showChinaMirror: false,
+    footerTheme: 'light', // 白色 底部主题
     githubUrl: repository.url,
     showSearch: true, // 是否显示搜索框
     showGithubCorner: true, // 是否显示头部的 GitHub icon
@@ -20,14 +31,18 @@ export default defineConfig({
     showLanguageSwitcher: true, // 是否显示官网语言切换
     showWxQrcode: true, // 是否显示头部菜单的微信公众号
     showChartResize: true, // 是否在 demo 页展示图表视图切换
-    showAPIDoc: true,
+    showAPIDoc: process.env.NODE_ENV === 'production', // 是否在 demo 页展示 API 说明
     versions: {
-      [version]: 'https://charts.ant.design',
+      [version]: 'https://ant-design-charts.antgroup.com',
+      '1.x': 'https://ant-design-charts-v1.antgroup.com',
       '0.x': 'https://v0-charts.ant.design/',
     },
     docsearchOptions: {
-      apiKey: 'cd83d8f913aeb993cd93f45fdbe9b5ac',
-      // indexName: 'charts-ant-design',
+      appId: 'I1DYJKMAUK',
+      apiKey: '5d0fcf465bcfa6fe6ef14d1bb1b7fb0f',
+      indexName: 'ant-design-charts-antgroup',
+      // container: '### REPLACE ME WITH A CONTAINER (e.g. div) ###',
+      debug: false,
     },
     navs: [
       {
@@ -36,7 +51,13 @@ export default defineConfig({
           zh: '教程',
           en: 'Manual',
         },
-        order: 3,
+      },
+      {
+        slug: 'docs/options',
+        title: {
+          zh: '选项',
+          en: 'Options',
+        },
       },
       {
         slug: 'examples',
@@ -44,144 +65,151 @@ export default defineConfig({
           zh: '图表示例',
           en: 'Examples',
         },
-        order: 2,
-      },
-      {
-        slug: 'docs/api',
-        title: {
-          zh: 'API',
-          en: 'API',
-        },
-        order: 1,
-      },
-      {
-        slug: 'docs/map-api',
-        title: {
-          zh: 'API-地图',
-          en: 'API-Map',
-        },
-        order: 0,
       },
     ],
     docs: [
       {
-        slug: 'api/options',
+        slug: 'options/plots',
         title: {
-          zh: '通用配置-统计图表',
+          zh: '统计图表',
           en: 'Common Configuration Statistical Charts',
         },
         order: 1,
       },
       {
-        slug: 'api/common-graph',
+        slug: 'options/plots/component',
         title: {
-          zh: '通用配置-关系图',
-          en: 'Common Configuration Relation Graph',
+          zh: '图表组件 - Component',
+          en: 'Component',
         },
         order: 2,
       },
       {
-        slug: 'map-api/plots',
+        slug: 'options/plots/label',
         title: {
-          zh: '基础图表 - Plots',
-          en: 'Plots',
-        },
-        order: 2,
-      },
-      {
-        slug: 'map-api/components',
-        title: {
-          zh: '组件 - Components',
-          en: 'Components',
+          zh: '数据标签 - Label',
+          en: 'Label',
         },
         order: 3,
       },
       {
-        slug: 'map-api/layers',
+        slug: 'options/plots/scale',
         title: {
-          zh: '图层 - Layers',
-          en: 'Layers',
+          zh: '比例尺 - Scale',
+          en: 'Scale',
+        },
+        order: 4,
+      },
+      {
+        slug: 'options/plots/annotation',
+        title: {
+          zh: '标记 - Annotations',
+          en: 'Annotations',
         },
         order: 5,
+      },
+      {
+        slug: 'options/plots/events',
+        title: {
+          zh: '事件 - Events',
+          en: 'Events',
+        },
+        order: 6,
+      },
+      {
+        slug: 'options/plots/animation',
+        title: {
+          zh: '动画 - Animation',
+          en: 'Animation',
+        },
+        order: 7,
+      },
+      {
+        slug: 'options/plots/interaction',
+        title: {
+          zh: '交互 - Interaction',
+          en: 'Interaction',
+        },
+        order: 8,
+      },
+      {
+        slug: 'options/plots/theme',
+        title: {
+          zh: '主题 - Theme',
+          en: 'Theme',
+        },
+        order: 9,
+      },
+      {
+        slug: 'options/plots/special',
+        title: {
+          zh: '专有配置 - Specal Plot',
+          en: 'Specal Plot',
+        },
+        order: 10,
+      },
+      {
+        slug: 'options/graphs',
+        title: {
+          zh: '关系图组件',
+          en: 'Relation Graph Components',
+        },
+        order: 2,
       },
     ],
     examples: [
       {
-        slug: 'flowchart',
-        icon: 'sankey',
+        slug: 'case',
+        icon: 'gallery',
         title: {
-          zh: '流程图',
-          en: 'Flowchart',
+          zh: '场景案例',
+          en: 'Show Case',
         },
       },
       {
-        slug: 'relation-graph',
-        icon: 'sankey',
+        slug: 'statistics',
+        icon: 'line',
+        title: {
+          zh: '统计图表',
+          en: 'Statistics',
+        },
+      },
+      {
+        slug: 'relations',
+        icon: 'line',
         title: {
           zh: '关系图',
-          en: 'Relation Graph',
-        },
-      },
-      {
-        slug: 'column',
-        icon: 'column',
-        title: {
-          zh: '柱形图',
-          en: 'Column',
-        },
-      },
-      {
-        slug: 'map-area',
-        icon: 'polygon',
-        title: {
-          zh: '区域地图',
-          en: 'Area Map',
-        },
-      },
-      {
-        slug: 'map-choropleth',
-        icon: 'polygon',
-        title: {
-          zh: '行政区域地图',
-          en: 'Choropleth Map',
-        },
-      },
-      {
-        slug: 'map-dot',
-        icon: 'point',
-        title: {
-          zh: '散点地图',
-          en: 'Dot Map',
-        },
-      },
-      {
-        slug: 'map-heat',
-        icon: 'heatmap',
-        title: {
-          zh: '热力地图',
-          en: 'Heat Map',
-        },
-      },
-      {
-        slug: 'map-advanced-plot',
-        icon: 'other',
-        title: {
-          zh: '多图层',
-          en: 'Advanced Map',
+          en: 'Relations',
         },
       },
     ],
     detail: {
+      engine: {
+        zh: 'AntV React',
+        en: 'AntV React',
+      },
       title: {
-        zh: 'AntV react 可视化组件库',
-        en: 'AntV react component library',
+        zh: '·可视化组件库',
+        en: '·Component Library',
       },
       description: {
         zh: '简单好用的 React 图表库。',
         en: 'Simple and easy to use React chart library.',
       },
-      image: 'https://gw.alipayobjects.com/mdn/rms_d314dd/afts/img/A*f_gcSbpq-6kAAAAAAAAAAABkARQnAQ',
+      image: 'https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*wi05Q7Za5ZIAAAAAAAAAAAAADmJ7AQ/original',
+      imageStyle: {
+        marginLeft: '80px',
+        marginTop: '30px',
+        transform: 'scale(1.4)',
+      },
       buttons: [
+        {
+          text: {
+            zh: '开始使用',
+            en: 'Getting Started',
+          },
+          link: `/manual/introduction`,
+        },
         {
           text: {
             zh: '图表示例',
@@ -190,41 +218,8 @@ export default defineConfig({
           link: `/examples/`,
           type: 'primary',
         },
-        {
-          text: {
-            zh: '开始使用',
-            en: 'Getting Started',
-          },
-          link: `/manual/introduction`,
-        },
       ],
     },
-    news: [
-      {
-        type: {
-          zh: '论坛',
-          en: 'Forum',
-        },
-        title: {
-          zh: 'AntV 芒种日 图新物：GraphInsight 发布',
-          en: 'AntV Seeds Day Graph New: GraphInsight Released',
-        },
-        date: '2022.06.06',
-        link: 'https://github.com/antvis/GraphInsight',
-      },
-      {
-        type: {
-          zh: '论坛',
-          en: 'Forum',
-        },
-        title: {
-          zh: 'SEE Conf 2022 支付宝体验科技大会',
-          en: 'SEE Conf 2022 Alipay Experience Technology Conference',
-        },
-        date: '2022.01.08',
-        link: 'https://seeconf.antfin.com/',
-      },
-    ],
     features: [
       {
         icon: 'https://gw.alipayobjects.com/zos/basement_prod/eae0ee4e-acbf-4486-88eb-ea17f441a0d5.svg',
@@ -244,8 +239,8 @@ export default defineConfig({
           en: 'Variety of charts',
         },
         description: {
-          zh: '支持全量的 G2Plot 图表，以及关系图、流程图、地理可视化，几乎做到同步更新',
-          en: 'Support full G2Plot charts, as well as relation graphs, flow charts, geographical visualization, almost synchronous update.',
+          zh: '涵盖统计图表、关系图、流程图以及地理可视化，种类齐全',
+          en: 'Covering statistical charts, relational diagrams, flowcharts, and geographic visualization, with a wide range of types.',
         },
       },
       {
@@ -255,26 +250,26 @@ export default defineConfig({
           en: 'Professional and reliable',
         },
         description: {
-          zh: 'AntV 团队支持，简单易容、专业可靠、无限可能"',
+          zh: 'AntV 团队支持，简单易容、专业可靠、无限可能',
           en: 'AntV team support, easy to accommodate, professional and reliable, unlimited possibilities.',
         },
       },
     ],
     cases: [
-      {
-        logo: 'https://gw.alipayobjects.com/mdn/rms_d314dd/afts/img/A*Uh1MSpdcj-kAAAAAAAAAAABkARQnAQ',
-        title: {
-          zh: '图编辑',
-          en: 'Advanced Features',
-        },
-        description: {
-          zh: '来这里尝试一下我们正在开发中的流程图功能',
-          en: `Try out the flowchart feature we're developing here`,
-        },
-        link: `/examples/flowchart/basic#basic`,
-        image: 'https://gw.alipayobjects.com/zos/antfincdn/5b5C1FvWLE/08c299c3-b3f8-4071-afc1-9aa5e1a9cb3a.png',
-        isAppLogo: true,
-      },
+      // {
+      //   logo: 'https://gw.alipayobjects.com/mdn/rms_d314dd/afts/img/A*Uh1MSpdcj-kAAAAAAAAAAABkARQnAQ',
+      //   title: {
+      //     zh: '图编辑',
+      //     en: 'Advanced Features',
+      //   },
+      //   description: {
+      //     zh: '来这里尝试一下我们正在开发中的流程图功能',
+      //     en: `Try out the flowchart feature we're developing here`,
+      //   },
+      //   link: `/examples/flowchart/basic#basic`,
+      //   image: 'https://gw.alipayobjects.com/zos/antfincdn/5b5C1FvWLE/08c299c3-b3f8-4071-afc1-9aa5e1a9cb3a.png',
+      //   isAppLogo: true,
+      // },
     ],
     /** 首页合作公司 */
     companies: [
@@ -307,6 +302,8 @@ export default defineConfig({
     },
   },
   mfsu: false,
+  mako: {},
+  jsMinifier: 'terser',
   alias: {
     // 根据自己项目结构书写绝对路径
     '@': __dirname,
