@@ -4,12 +4,11 @@ order: 1
 ---
 
 ## 安装
-### 通过 npm 安装
+### 方式一：通过 npm 安装
 
 我们提供了 Ant Design 的 npm 包，通过下面的命令即可完成安装：
 
 ```bash
-// 推荐用法
 npm install @ant-design/charts --save
 ```
 
@@ -19,71 +18,47 @@ npm install @ant-design/charts --save
 import { Line } from '@ant-design/charts';
 ```
 
-也可仅引入相关子包
-- 统计图表：`@ant-design/plots`
-- 地图：`@ant-design/maps`
-- 流程图：`@ant-design/flowchart`
-- 关系图：`@ant-design/graphs`
-
-
-流程图除 `react`、`react-dom` 外，还依赖 `antd`、`@ant-design/icons`、`lodash`，使用时确保已经安装，同时记得引入样式文件 `import "@ant-design/flowchart/dist/index.css";`
-
+前置依赖
 ```ts
 "peerDependencies": {
-    "@ant-design/icons": "^4.6.0",
-    "antd": "^4.6.3",
-    "lodash": "^4.17.20",
     "react": ">=16.8.4",
     "react-dom": ">=16.8.4"
   }
 ```
 
-### 浏览器引入
+### 方式二：浏览器引入
 
 既可以通过将脚本下载到本地也可以直接引入在线资源。
 
 ```ts
-// Plots 相关的图表
-<script type="text/javascript" src="https://unpkg.com/@ant-design/plots@latest/dist/plots.min.js"></script>
-// Flowchart 相关的图表
-<script type="text/javascript" src="https://unpkg.com/@ant-design/flowchart@latest/dist/flowchart.min.js"></script>
-// Maps 相关的图表
-<script type="text/javascript" src="https://unpkg.com/@ant-design/maps@latest/dist/maps.min.js"></script>
-// Graphs 相关的图表
-<script type="text/javascript" src="https://unpkg.com/@ant-design/graphs@latest/dist/graphs.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/@ant-design/charts@latest/dist/charts.min.js"></script>
 ```
 
-由于 @ant-design/charts 里面 externals 了 `react` 和 `react-dom`，该方式使用时需要在项目里面做同样的操作，通过 CDN 的方式在 `charts.min.js` 之前引入 `react` 和 `react-dom`，不同图表 externals 会有差别。
-
-
+由于 @ant-design/charts 里面 externals 了 `react` 、`react-dom`，使用时需要通过 CDN 的方式在 `charts.min.js` 之前引入对应包的 CDN 地址。
+ 
 ```ts
 // webpack.config.js
 externals: {
   react: 'React',
   'react-dom': 'ReactDOM',
+  'lodash': 'lodash',
 }
 // public/index.html
-<script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react@latest/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@latest/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/lodash@4.17.21/lodash.min.js"></script>
+
 // 按需引入
-<script type="text/javascript" src="https://unpkg.com/@ant-design/plots@latest/dist/plots.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/@ant-design/charts@latest/dist/charts.min.js"></script>
 ```
 
 使用方式
 
 ```ts
 // 折线图，其它图表类似
-const { Line } = window.charts;
+const { Line } = window.Charts;
 ```
 
-
-```html
-<!-- 下载到本地 引入本地脚本 -->
-<script src="./plots.min.js"></script>
-<script>
-  const { Line } = window.charts;
-</script>
-```
 
 ## 快速使用
 
@@ -111,43 +86,6 @@ const Page: React.FC = () => {
     height: 400,
     xField: 'year',
     yField: 'value',
-    point: {
-      size: 5,
-      shape: 'diamond',
-    },
-  };
-  return <Line {...config} />;
-};
-export default Page;
-```
-
-最终效果：
-
-```tsx
-import React from 'react';
-import { Line } from '@ant-design/charts';
-
-const Page: React.FC = () => {
-  const data = [
-    { year: '1991', value: 3 },
-    { year: '1992', value: 4 },
-    { year: '1993', value: 3.5 },
-    { year: '1994', value: 5 },
-    { year: '1995', value: 4.9 },
-    { year: '1996', value: 6 },
-    { year: '1997', value: 7 },
-    { year: '1998', value: 9 },
-    { year: '1999', value: 13 },
-  ];
-
-  const config = {
-    data,
-    xField: 'year',
-    yField: 'value',
-    point: {
-      size: 5,
-      shape: 'diamond',
-    },
   };
   return <Line {...config} />;
 };

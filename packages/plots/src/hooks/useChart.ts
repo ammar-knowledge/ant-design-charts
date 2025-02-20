@@ -1,11 +1,8 @@
 import React, { useRef, useEffect } from 'react';
-import { isEqual, get } from '@antv/util';
-import { G2 } from '@antv/g2plot';
-import createNode from '../utils/createNode';
-import { hasPath, isType, deepClone, clone, setPath, uuid } from '../utils';
+import { isFunction, isEqual, get, createNode, cloneDeep, isArray, isObject, isValidElement } from '../util';
 import { CommonConfig, Chart } from '../interface';
 
-export default function useInit<T extends Chart, U extends CommonConfig>(ChartClass: T, config: U) {
+export default function useChart<T extends Chart, U extends CommonConfig>(ChartClass: T, config: U) {
   const chart = useRef<T>();
   const chartOptions = useRef<U>();
   const container = useRef<HTMLDivElement>(null);
@@ -17,11 +14,12 @@ export default function useInit<T extends Chart, U extends CommonConfig>(ChartCl
    * @param {number} encoderOptions A Number between 0 and 1 indicating the image quality
    */
   const toDataURL = (type = 'image/png', encoderOptions?: number) => {
-    return chart.current?.chart.canvas.cfg.el.toDataURL(type, encoderOptions);
+    const canvas = container.current?.getElementsByTagName('canvas')[0];
+    return canvas?.toDataURL(type, encoderOptions);
   };
 
   /**
-   * Download Iamge
+   * Download Image
    * @param {string} name A name of image
    * @param {string} type A DOMString indicating the image format. The default format type is image/png.
    * @param {number} encoderOptions A Number between 0 and 1 indicating the image quality
@@ -31,7 +29,7 @@ export default function useInit<T extends Chart, U extends CommonConfig>(ChartCl
     if (name.indexOf('.') === -1) {
       imageName = `${name}.${type.split('/')[1]}`;
     }
-    const base64 = chart.current?.chart.canvas.cfg.el.toDataURL(type, encoderOptions);
+    const base64 = toDataURL(type, encoderOptions);
     let a: HTMLAnchorElement | null = document.createElement('a');
     a.href = base64;
     a.download = imageName;
@@ -42,62 +40,41 @@ export default function useInit<T extends Chart, U extends CommonConfig>(ChartCl
     return imageName;
   };
 
-  const reactDomToString = (source: U, path: string[], type?: string, _uuid?: string) => {
-    const statisticCustomHtml = hasPath(source, path);
-    setPath(source, path, (...arg: any[]) => {
-      const statisticDom = isType(statisticCustomHtml, 'Function') ? statisticCustomHtml(...arg) : statisticCustomHtml;
-      if (isType(statisticDom, 'String') || isType(statisticDom, 'Number') || isType(statisticDom, 'HTMLDivElement')) {
-        return statisticDom;
+  /**
+   * JSX TO HTMLElement
+   * @param {object} cfg
+   * @param {boolean} flag isTooltip
+   */
+  const processConfig = (cfg: object, flag = false) => {
+    const keys = Object.keys(cfg);
+    let isTooltip = flag;
+    keys.forEach((key) => {
+      const current = cfg[key];
+      if (key === 'tooltip') {
+        isTooltip = true;
       }
-      return createNode(statisticDom, type, _uuid);
+      if (isFunction(current) && isValidElement(`${current}`)) {
+        cfg[key] = (...arg) => createNode(current(...arg), isTooltip);
+      } else {
+        if (isArray(current)) {
+          current.forEach((item) => {
+            processConfig(item, isTooltip);
+          });
+        } else if (isObject(current)) {
+          processConfig(current, isTooltip);
+        } else {
+          isTooltip = flag;
+        }
+      }
     });
-  };
-
-  const processConfig = () => {
-    const _uuid = uuid();
-    // statistic
-    if (hasPath(config, ['statistic', 'content', 'customHtml'])) {
-      reactDomToString(config, ['statistic', 'content', 'customHtml']);
-    }
-    if (hasPath(config, ['statistic', 'title', 'customHtml'])) {
-      reactDomToString(config, ['statistic', 'title', 'customHtml']);
-    }
-    // tooltip
-    if (typeof config.tooltip === 'object') {
-      if (hasPath(config, ['tooltip', 'container'])) {
-        reactDomToString(config, ['tooltip', 'container'], 'tooltip', _uuid);
-      }
-      if (hasPath(config, ['tooltip', 'customContent'])) {
-        reactDomToString(config, ['tooltip', 'customContent'], 'tooltip', _uuid);
-      }
-    }
   };
 
   useEffect(() => {
     if (chart.current && !isEqual(chartOptions.current, config)) {
-      let changeData = false;
-      if (chartOptions.current) {
-        // 从 options 里面取出 data 、value 、 percent 进行比对，判断是否仅数值发生改变
-        const { data: currentData, ...currentConfig } = chartOptions.current;
-        const { data: inputData, ...inputConfig } = config;
-        changeData = isEqual(currentConfig, inputConfig);
-      }
-      chartOptions.current = deepClone(config);
-      if (changeData && get(config, 'chartType') !== 'Mix') {
-        let changeType = 'data';
-        const typeMaps = ['percent']; // 特殊类型的图表 data 字段，例如 RingProgress
-        const currentKeys = Object.keys(config);
-        typeMaps.forEach((type: string) => {
-          if (currentKeys.includes(type)) {
-            changeType = type;
-          }
-        });
-        chart.current.changeData(config?.[changeType] || []);
-        chart.current.render();
-      } else {
-        processConfig();
-        chart.current.update(config);
-      }
+      chartOptions.current = cloneDeep(config);
+      processConfig(config);
+      chart.current.update(config);
+      chart.current.render();
     }
   }, [config]);
 
@@ -106,21 +83,17 @@ export default function useInit<T extends Chart, U extends CommonConfig>(ChartCl
       return () => null;
     }
     if (!chartOptions.current) {
-      chartOptions.current = deepClone(config);
+      chartOptions.current = cloneDeep(config);
     }
-    processConfig();
+    processConfig(config);
     const chartInstance: T = new (ChartClass as any)(container.current, {
       ...config,
     });
 
-    chartInstance.toDataURL = (type?: string, encoderOptions?: number) => {
-      return toDataURL(type, encoderOptions);
-    };
-    chartInstance.downloadImage = (name?: string, type?: string, encoderOptions?: number) => {
-      return downloadImage(name, type, encoderOptions);
-    };
+    chartInstance.toDataURL = toDataURL;
+    chartInstance.downloadImage = downloadImage;
     chartInstance.render();
-    chart.current = clone(chartInstance) as T;
+    chart.current = chartInstance;
     if (onReady) {
       onReady(chartInstance);
     }

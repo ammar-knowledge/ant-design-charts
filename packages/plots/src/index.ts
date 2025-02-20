@@ -1,9 +1,7 @@
-import Column from './components/column';
-import { G2 } from '@antv/g2plot';
+import * as G2 from '@antv/g2';
 
-export {
-  Column,
-  G2,
-};
-
+/** utils */
+export { measureTextWidth } from '@ant-design/charts-util';
+export * from './components';
 export * from './interface';
+export { G2 };

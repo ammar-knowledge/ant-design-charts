@@ -2,20 +2,19 @@
 
 <div align="center">
 
-A React chart library, based on [G2Plot](https://github.com/antvis/G2Plot), [G6](https://github.com/antvis/G6), [XFlow](https://github.com/antvis/XFlow), [L7Plot](https://github.com/antvis/L7Plot).
+A React chart library, based on [G2](https://github.com/antvis/G2), [G6](https://github.com/antvis/G6), [X6](https://github.com/antvis/X6), [L7](https://github.com/antvis/L7).
 
-![build](https://github.com/ant-design/ant-design-charts/workflows/build/badge.svg)
 ![npm](https://img.shields.io/npm/v/@ant-design/charts)
 ![npm](https://img.shields.io/npm/dm/@ant-design/charts)
 [![GitHub stars](https://img.shields.io/github/stars/ant-design/ant-design-charts)](https://github.com/ant-design/ant-design-charts/stargazers)
 [![npm License](https://img.shields.io/npm/l/@ant-design/charts.svg)](https://www.npmjs.com/package/@ant-design/charts)
 
+
 <p align="center">
-  <a href="https://charts.ant.design/">Website</a> •
-  <a href="https://charts.ant.design/en/docs/manual/getting-started">Quick Start</a> •
-  <a href="https://charts.ant.design/en/examples/gallery">Gallery</a> •
-  <a href="https://charts.ant.design/en/docs/manual/faq">FAQ</a> •
-  <a href="https://www.yuque.com/antv/g2plot">Blog</a>
+  <a href="https://ant-design-charts.antgroup.com/en/">Website</a> •
+  <a href="https://ant-design-charts.antgroup.com/en/manual/getting-started">Quick Start</a> •
+  <a href="https://ant-design-charts.antgroup.com/en/examples">Examples</a> •
+  <a href="https://ant-design-charts.antgroup.com/en/manual/faq">FAQ</a> •
 </p>
 
 </div>
@@ -24,16 +23,6 @@ A React chart library, based on [G2Plot](https://github.com/antvis/G2Plot), [G6]
 
 ### Statistical charts
 <img src="https://gw.alipayobjects.com/mdn/rms_d314dd/afts/img/A*sXqrRrEwFRQAAAAAAAAAAABkARQnAQ" width="800"/>
-
-### Flowchart
-<img src=https://gw.alipayobjects.com/mdn/rms_19b204/afts/img/A*ixVAQrEoCTcAAAAAAAAAAAAAARQnAQ />
-
-### Maps
-<img src="https://gw.alipayobjects.com/zos/antfincdn/xX10CNIu4b/8a064058-518e-4860-af54-58ca17cae985.png" />
-
-### Relation Graphs
-<img src="https://gw.alipayobjects.com/zos/antfincdn/4wquuBREI7/2f4acfc5-6e14-4972-abc1-ce9ee1ff5c07.png" />
-
 
 ## ✨ Features
 
@@ -70,51 +59,13 @@ const Page: React.FC = () => {
     { year: '1999', value: 13 },
   ];
 
-  let chart;
-
   const props = {
-    config: {
-      data,
-      width: 800,
-      height: 400,
-      autoFit: false,
-      xField: 'year',
-      yField: 'value',
-      point: {
-        size: 5,
-        shape: 'diamond',
-      },
-      label: {
-        style: {
-          fill: '#aaa',
-        },
-      },
-      onReady: (chartInstance) => chart = chartInstance
-    }
+    data,
+    xField: 'year',
+    yField: 'value',
   };
 
-
-  // Export Image
-  const downloadImage = () => {
-    chart?.downloadImage();
-  };
-
-  // Get chart base64 string
-  const toDataURL = () => {
-    console.log(chart?.toDataURL());
-  };
-
-  return (
-    <div>
-      <button type="button" onClick={downloadImage} style={{ marginRight: 24 }}>
-        Export Image
-      </button>
-      <button type="button" onClick={toDataURL}>
-        Get base64
-      </button>
-      <Line {...props} />
-    </div>
-  );
+  return <Line {...props} />
 };
 export default Page;
 ```
@@ -124,20 +75,6 @@ Preview
 <img src="https://gw.alipayobjects.com/mdn/rms_d314dd/afts/img/A*xTY6QIQsWcwAAAAAAAAAAAAAARQnAQ" width="600">
 
 
-## 📜 Document & API
-
-See chart API for details. Common props:
-
-| Property | Description | Type | defaultValue |
-| :--- | :--- | :--- | :--- |
-| onReady | chart loaded callback | (chart)=> void | - |
-| onEvent | chart events | (chart, event)=> void | - |
-| loading | loading status | boolean | - |
-| loadingTemplate | loading template | React.ReactElement | - |
-| errorTemplate | custom error template | (e: Error) => React.ReactNode | - |
-| className | container class | string | - |
-| style | container style | React.CSSProperties | - |
-
 ## Development
 
  Clone locally:
@@ -146,8 +83,7 @@ See chart API for details. Common props:
 $ git clone git@github.com:ant-design/ant-design-charts.git
 $ cd ant-design-charts
 $ pnpm install
-$ pnpm build:lib
-$ pnpm start
+$ pnpm build:lib & pnpm start
 ```
 
 ## 🤝 How to Contribute

@@ -1,65 +1,18 @@
-import { Options, G2, G2Spec } from '@antv/g2plot';
+import type { ContainerConfig } from '@ant-design/charts-util';
+import type { Data as G2Data, TooltipComponent } from '@antv/g2';
+import { Options, Spec } from './core';
 
 /**
  * @title 图表浮窗配置
  * @title.en_US Chart tooltip configuration
  */
-export interface Tooltip extends Omit<G2Spec, 'customContent' | 'container'> {
-  customContent?: (title: string, data: any[]) => React.ReactNode | string | unknown;
-  container?: React.ReactNode;
-}
+export type Tooltip = TooltipComponent;
 
 export type Plot = any;
 
 export interface Chart extends Plot {
   toDataURL?: (type?: string, encoderOptions?: number) => string;
   downloadImage?: (name?: string, type?: string, encoderOptions?: number) => string;
-}
-
-export interface ContainerConfig {
-  /**
-   * @title 图表样式
-   * @description 配置图表样式
-   * @title.en_US Chart style
-   * @description.en_US Configure chart styles
-   */
-  style?: React.CSSProperties;
-  /**
-   * @title 容器class
-   * @description 类名添加
-   * @title.en_US Container class name
-   * @description.en_US Class name addition
-   */
-  className?: string;
-  /**
-   * @title 加载状态
-   * @description 是否加载中
-   * @default false
-   * @title.en_US Loading status
-   * @description.en_US Is it loading
-   * @default.en_US false
-   */
-  loading?: boolean;
-  /**
-   * @title 加载模板
-   * @description 加载模板
-   * @title.en_US Load template
-   * @description.en_US Load template
-   */
-  loadingTemplate?: React.ReactElement;
-  /**
-   * @title 出错模板
-   * @description 出错时占位模板
-   * @title.en_US error template
-   * @description.en_US Error placeholder template
-   */
-  errorTemplate?: (e: Error) => React.ReactNode;
-  /**
-   * @title 图表浮窗
-   * @description 设置悬浮提示
-   * @title.en_US Chart tooltip
-   * @description.en_US Setting chart tooltip
-   */
 }
 
 export interface AttachConfig {
@@ -94,20 +47,18 @@ export interface AttachConfig {
  */
 export type PlotEvent = any; // 来自 G2 ，临时使用 any
 
-export type Datum = any; // 来自 G2 ，临时使用 any
+export type Datum = G2Data | any[];
 
 type TransformType<T> = T extends object ? { [P in keyof T]: TransformType<T[P]> } : T;
 
 export interface Common extends AttachConfig, ContainerConfig {
-  data?: Datum[];
+  data?: Datum;
   /**
    * @title 内部属性，只读
    */
   readonly chartType?: string;
 }
 
-export type CommonConfig<T = G2Spec> = Common & TransformType<T>;
+export type CommonConfig<T = Spec> = Common & TransformType<T>;
 
-export * from './components/interface';
-
-export { Options, G2 };
+export { Options };
