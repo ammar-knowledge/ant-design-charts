@@ -33,7 +33,7 @@
     "@types/react-dom": "^16.9.13",
     "cross-env": "^7.0.3",
     "dumi": "2",
-    "gh-pages": "^2.1.1",
+    "gh-pages": "^6.2.0",
     "typedoc": "^0.17.6",
     "typedoc-plugin-markdown": "^2.2.11",
     "typescript": "^3.6.5"
